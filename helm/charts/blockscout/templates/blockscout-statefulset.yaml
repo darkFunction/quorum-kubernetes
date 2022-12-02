@@ -61,12 +61,13 @@ spec:
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: blockscout
-        app.kubernetes.io/component: statefulset
-        app.kubernetes.io/part-of: {{ include "blockscout.fullname" . }}
+        app: {{ template "blockscout.fullname" . }}
+        release: {{ .Release.Name }}
+        component: {{ .Release.Name }}
+        app.kubernetes.io/name: {{ include "blockscout.fullname" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
         app.kubernetes.io/namespace: {{ .Release.Namespace }}
-        app.kubernetes.io/release: {{ .Release.Name }}
-        app.kubernetes.io/managed-by: helm
+
     spec:
       serviceAccountName: {{ include "blockscout.fullname" . }}-sa
       containers:
@@ -129,3 +130,4 @@ spec:
           - |
             exec
             cd /opt/app/ && echo $$MIX_ENV && mix do ecto.create, ecto.migrate; mix phx.server;
+

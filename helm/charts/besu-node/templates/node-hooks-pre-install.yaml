@@ -7,7 +7,7 @@ metadata:
   annotations:
     "helm.sh/hook": pre-install
     "helm.sh/hook-weight": "0"
-    "helm.sh/hook-delete-policy": "hook-succeeded"
+    #"helm.sh/hook-delete-policy": "hook-succeeded"
   labels:
 {{- if and (eq .Values.cluster.provider "azure") (.Values.cluster.cloudNativeServices) }}
     aadpodidbinding: "{{ .Values.azure.identityName }}"
@@ -135,7 +135,7 @@ spec:
                 fpath=$2
                 kubectl get secret ${key}-keys --namespace {{ .Release.Namespace }} -o json > /dev/null 2>&1
                 if [ $? -ne 0 ]; then
-                  kubectl create secret generic ${key}-keys --namespace {{ .Release.Namespace }} --from-file=nodekey=${fpath}/nodekey --from-file=nodekey.pub=${fpath}/nodekey.pub --from-file=enode=${fpath}/nodekey.pub --from-file=accountPrivate.key=${fpath}/accountPrivateKey --from-file=accountPassword=${fpath}/accountPassword --from-file=accountKeystore=${fpath}/accountKeystore --from-file=accountAdddress=${fpath}/accountAddress
+                  kubectl create secret generic ${key}-keys --namespace {{ .Release.Namespace }} --from-file=nodekey=${fpath}/nodekey --from-file=nodekey.pub=${fpath}/nodekey.pub --from-file=enode=${fpath}/nodekey.pub --from-file=accountPrivate.key=${fpath}/accountPrivateKey --from-file=accountPassword=${fpath}/accountPassword --from-file=accountKeystore=${fpath}/accountKeystore --from-file=accountAddress=${fpath}/accountAddress
                 else
                   # if the key exists pull it from secrets so that when you update the enodes configmap, you have the right value
                   kubectl get secrets ${key}-keys --namespace {{ .Release.Namespace }}  -o json | jq '.data.enode' | tr -d '"'| base64 --decode > /tmp/enode
@@ -167,6 +167,8 @@ spec:
               safeWriteSecret {{ template "besu-node.fullname" . }} $FOLDER_PATH/member0
 {{- end }}
               cat $FOLDER_PATH/member0/nodekey.pub > /tmp/enode
+              echo "/tmp/enode contents: "
+              cat /tmp/enode
               echo "Creating configmap for node address"
               kubectl create configmap {{ template "besu-node.fullname" . }}-address --from-file=address=$FOLDER_PATH/${f}/member0/address
 

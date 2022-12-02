@@ -23,6 +23,6 @@ maintainers:
 icon: http://besu.hyperledger.org/en/latest/favicon.ico
 dependencies:
   - name: postgresql
-    version: "10.14.2"
-    repository: "https://charts.bitnami.com/bitnami"
+    version: "0.2.3"
+    repository: "https://cetic.github.io/helm-charts"
     condition: postgresql.enabled

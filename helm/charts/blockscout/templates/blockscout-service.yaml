@@ -14,11 +14,10 @@ metadata:
 spec:
   type: ClusterIP
   selector:
-    app.kubernetes.io/part-of: {{ include "blockscout.fullname" . }}
+    app: {{ include "blockscout.fullname" . }}
     app.kubernetes.io/namespace: {{ .Release.Namespace }}
   ports:
     - name: http
       port: 4000
       targetPort: http
       protocol: TCP
-      

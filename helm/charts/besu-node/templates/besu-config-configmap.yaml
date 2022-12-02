@@ -75,11 +75,16 @@ data:
     {{ if  .Values.node.besu.permissions.enabled -}}
     # Permissioning
     permissions-nodes-config-file-enabled={{ .Values.node.besu.permissions.nodes.enabled }}
+    {{ if .Values.node.besu.permissions.nodes.enabled -}}
     permissions-nodes-config-file={{ .Values.node.besu.permissions.filePath | quote }}
+    {{ end }}
     permissions-accounts-config-file-enabled={{ .Values.node.besu.permissions.accounts.enabled }}
+    {{ if .Values.node.besu.permissions.accounts.enabled -}}
     permissions-accounts-config-file={{ .Values.node.besu.permissions.filePath | quote }}
+    {{ end }}
     permissions-nodes-contract-enabled={{ .Values.node.besu.permissions.nodesContract.enabled }}
     permissions-nodes-contract-address={{ .Values.node.besu.permissions.nodesContract.address | quote }}
+    permissions-nodes-contract-version={{ .Values.node.besu.permissions.nodesContract.version }}
     permissions-accounts-contract-enabled={{ .Values.node.besu.permissions.accountsContract.enabled }}
     permissions-accounts-contract-address={{ .Values.node.besu.permissions.accountsContract.address | quote }}
     {{ end }}

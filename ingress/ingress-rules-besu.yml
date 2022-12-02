@@ -18,106 +18,73 @@ metadata:
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
     nginx.ingress.kubernetes.io/use-regex: "true"
     nginx.ingress.kubernetes.io/configuration-snippet: |
-      rewrite (?i)/tessera-[0-9]?/(.*) /$1 break;
-      rewrite (?i)/tessera-[0-9]?$ / break;    
-      rewrite (?i)/kibana/(.*) /$1 break;
-      rewrite (?i)/kibana$ / break;
+      rewrite (?i)/explorer/(.*) /explorer/$1 break;
+      rewrite (?i)/explorer$ /explorer break;
+
     nginx.ingress.kubernetes.io/rewrite-target: /
     #nginx.ingress.kubernetes.io/whitelist-source-range: w.x.y.z/32,a.b.c.d/32
 
 spec:
   ingressClassName: network-nginx
   rules:
-  - http:
-      paths:
-      - path: /rpc
-        pathType: Prefix
-        backend:
-          service:
-            name: besu-node-rpc-1
-            port:
-              number: 8545
-      - path: /validator-1
-        pathType: Prefix
-        backend:
-          service:
-            name: besu-node-validator-1
-            port:
-              number: 8545
-      - path: /validator-2
-        pathType: Prefix
-        backend:
-          service:
-            name: besu-node-validator-2
-            port:
-              number: 8545
-      - path: /validator-3
-        pathType: Prefix
-        backend:
-          service:
-            name: besu-node-validator-3
-            port:
-              number: 8545
-      - path: /validator-4
-        pathType: Prefix
-        backend:
-          service:
-            name: besu-node-validator-4
-            port:
-              number: 8545
-      - path: /member-1
-        pathType: Prefix
-        backend:
-          service:
-            name: besu-node-member-1
-            port:
-              number: 8545
-      - path: /tessera-1
-        pathType: Prefix
-        backend:
-          service:
-            name: besu-node-member-1
-            port:
-              number: 9080
-      - path: /member-2
-        pathType: Prefix
-        backend:
-          service:
-            name: besu-node-member-2
-            port:
-              number: 8545
-      - path: /tessera-2
-        pathType: Prefix
-        backend:
-          service:
-            name: besu-node-member-2
-            port:
-              number: 9080
-      - path: /member-3
-        pathType: Prefix
-        backend:
-          service:
-            name: besu-node-member-3
-            port:
-              number: 8545
-      - path: /tessera-3
-        pathType: Prefix
-        backend:
-          service:
-            name: besu-node-member-3
-            port:
-              number: 9080
-      - path: /kibana
-        pathType: Prefix
-        backend:
-          service:
-            name: kibana-kibana
-            port:
-              number: 5601
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: monitoring-grafana
-            port:
-              number: 3000
+    - host: blockscout.chain.test
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: blockscout
+                port:
+                  number: 4000
+    - host: explorer.chain.test
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: quorum-explorer
+                port:
+                  number: 80
+    - host: nodes.chain.test
+      http:
+        paths:
+          - path: /validator-1
+            pathType: Prefix
+            backend:
+              service:
+                name: besu-node-validator-1
+                port:
+                  number: 8545
+          - path: /validator-2
+            pathType: Prefix
+            backend:
+              service:
+                name: besu-node-validator-2
+                port:
+                  number: 8545
+          - path: /validator-3
+            pathType: Prefix
+            backend:
+              service:
+                name: besu-node-validator-3
+                port:
+                  number: 8545
+          - path: /validator-4
+            pathType: Prefix
+            backend:
+              service:
+                name: besu-node-validator-4
+                port:
+                  number: 8545
+    - host: grafana.chain.test
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: monitoring-grafana
+                port:
+                  number: 3000
