@@ -38,6 +38,28 @@ node:
       cpuRequest: 0.5
       memLimit: "2G"
       memRequest: "1G"
+    permissions:
+      enabled: true
+      filePath: ""
+      nodes:
+        enabled: false
+        allowlist:
+          [
+            "enode://abcd..@1.2.3.3:30303",
+            "enode://efba..@1.2.3.4:besu-node-bootnode-1-0.besu-node-bootnode-1.besu.svc.cluster.local:30303",
+          ]
+      accounts:
+        enabled: false
+        allowlist: ["0x0000000000000000000000000000000000008888"]
+      nodesContract:
+        enabled: true
+        address: "0x0000000000000000000000000000000000009999"
+        version: 2
+      accountsContract:
+        enabled: true
+        address: "0x0000000000000000000000000000000000008888"
+
+
   goquorum:
     metrics:
       serviceMonitorEnabled: true
@@ -46,3 +68,4 @@ node:
       cpuRequest: 0.1
       memLimit: "2G"
       memRequest: "1G"
+

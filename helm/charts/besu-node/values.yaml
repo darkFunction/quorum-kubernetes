@@ -53,7 +53,7 @@ node:
     keysPath: "/keys"
     privateKeyPath: "/keys/nodekey"
     genesisFilePath: "/etc/genesis/genesis.json"
-    logging: INFO
+    logging: DEBUG
     account:
       password: "password"
       passwordPath: "/keys/accountPassword"
